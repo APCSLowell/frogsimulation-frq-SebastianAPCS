@@ -1,97 +1,80 @@
-public class FrogSimulation
-{
+public class FrogSimulation {
 	private int goalDistance;
 	private int maxHops;
 	
-	public FrogSimulation(int dist, int numHops)
-	{
+	public FrogSimulation(int dist, int numHops) {
 		goalDistance = dist;
 		maxHops = numHops;
-		maxHopsHolder = numHops;  //ignore this, it's used for testing
+		maxHopsHolder = numHops;
 	}
 	
-	//private int hopDistance() 
-	//implementation is below, but not important
-	
-	public boolean simulate()
-	{ 
-		/* to be implemented in part (a) */
+	public boolean simulate() { 
+		int frogPosition = 0;
 
-	}
-	
-	public double runSimulations(int num)
-	{ 
-		/* to be implemented in part (b) */ 
+		for (int i = 0; i < maxHops; i++) {
+			frogPosition += hopDistance();
+		}
 
+		return frogPosition > goalDistance;
+	}
+	
+	public double runSimulations(int num) {
+		double numSuccess = 0;
+
+		for (int i = 0; i < num; i++) {
+			numSuccess += simulate() == true ? 1 : 0;
+		}
+
+		return numSuccess / num;
 	}
 	
 	
-	//ignore the code below this line
-	//-------------------------------------------------------------------------------------
+	private String part; 
+
 	private int[] hopValues;
-	private int hopIndex = 0;
-	
 	private int[][] hopValuesMatrix;
-	private int row=0;
-	private int col=0;
 	
+	private int hopIndex = 0;
+	private int row = 0;
+	private int col = 0;
 	
 	private int maxHopsHolder;
-	private String part; 
 	
+	private int hopDistance() {
+		int value = 0;
 	
-	private int hopDistance()
-	{ 
-		if( this.part.equals("A") )
-		{
-			int value = 0;
-			if( hopValues != null && hopIndex < hopValues.length )
-			{
+		if (this.part.equals("A")) {
+			if (hopValues != null && hopIndex < hopValues.length) {
 				value = hopValues[hopIndex];
 				hopIndex++;
 			}
-			
-			return value;
-		}
-		else if (this.part.equals("B"))
-		{
-			int value = 0;
-			if( hopValuesMatrix != null && row < hopValuesMatrix.length )
-			{
+		} else if (this.part.equals("B")) {
+			if (hopValuesMatrix != null && row < hopValuesMatrix.length) {
 				value = hopValuesMatrix[row][col];
-				
 				col++;
-				
-				if( col == hopValuesMatrix[row].length ){
+				if (col == hopValuesMatrix[row].length) {
 					col = 0;
 					row++;
 				}
 			}
-			
-			return value;
-		} else {
-			return 0;
 		}
+	
+		return value;
 	}
 	
-	public void setPart(String letter ){
+	public void setPart(String letter) {
 		this.part = letter;
 	}
 	
-	public void setHopValues(int[] hopValues)
-	{
-		this.hopValues = hopValues;
-		this.hopIndex = 0;
+	public void setHopValues(int[] hopValues) {
 		this.maxHops = maxHopsHolder;
+		this.hopValues = hopValues;
+		hopIndex = 0;
 	}
 	
-	public void setMultipleHopValues(int[][] hopValuesMatrix){
+	public void setMultipleHopValues(int[][] hopValuesMatrix) {
 		this.hopValuesMatrix = hopValuesMatrix;
 		this.row = 0;
 		this.col = 0;
 	}
-	
-	
-	
-	
-} 
+}
